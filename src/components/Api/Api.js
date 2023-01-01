@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-let per_page = 12;
-let page = 1;
+const per_page = 12;
 
-export const fetchPictures = async search_term => {
+export const fetchPictures = async (search_term, page) => {
   let params = new URLSearchParams({
     key: '30974723-e837a19c04863567111943fb7',
     //search_term: this.state.search_term,
@@ -17,8 +16,7 @@ export const fetchPictures = async search_term => {
   const URL = `https://pixabay.com/api/?${params}&q=${search_term}`;
   try {
     const response = await axios.get(`${URL}`);
-    console.log(response);
-    return response.data.hits;
+    return response.data;
   } catch (error) {
     console.error(error);
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { fetchPictures } from './Api/Api.jsx';
+import { fetchPictures } from './Api/Api.js';
 import { Gallery } from './Gallery/Gallery.jsx';
+import { Modal } from './Modal/Modal.jsx';
 
 export class App extends Component {
   constructor(props) {
@@ -9,7 +10,11 @@ export class App extends Component {
       pictures: [],
       isLoading: false,
       error: null,
-      search_term: '',
+      search_term: 'cats',
+      page: 1,
+      totalPages: 0,
+      per_page: 12,
+      idForModal: 0,
     };
   }
 
@@ -19,62 +24,72 @@ export class App extends Component {
     this.setState(
       {
         search_term: form.elements.searchQuery.value,
+        page: 1,
       },
-      () => {
-        console.log(this.state.search_term);
+      async () => {
+        const response = await fetchPictures(
+          this.state.search_term,
+          this.state.page
+        );
+        this.setState(
+          {
+            pictures: response.hits,
+            totalPages: response.totalHits / this.state.per_page,
+          },
+          () => {
+            console.log(this.state);
+          }
+        );
       }
     );
   };
 
-  /*async fetchPictures() {
-    let params = new URLSearchParams({
-      key: '30974723-e837a19c04863567111943fb7',
-      //search_term: this.state.search_term,
-      image_type: 'photo',
-      orientation: 'horizontal',
-      safesearch: true,
-      per_page: per_page,
-      page: page,
-    });
-    const URL = `https://pixabay.com/api/?${params}&q=${this.state.search_term}`;
-    try {
-      const response = await axios.get(`${URL}`);
-      this.setState({ pictures: response.data.hits }, () => {
-        console.log(this.state);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }*/
-  shouldComponentUpdate;
-
-  async componentDidUpdate(prevProps, prevState) {
-    try {
-      if (this.state.pictures === prevState.pictures) {
-        const response = await fetchPictures(this.state.search_term);
-        this.setState({ pictures: response });
-      } else {
-        return;
+  loadMorePictures = () => {
+    this.setState(
+      prevState => {
+        return { page: prevState.page + 1 };
+      },
+      async () => {
+        const response = await fetchPictures(
+          this.state.search_term,
+          this.state.page
+        );
+        this.setState(
+          {
+            pictures: response.hits,
+            totalPages: response.totalHits / this.state.per_page,
+          },
+          () => {
+            console.log(this.state);
+          }
+        );
       }
-    } catch (error) {
-      console.error('something went wrong');
-    }
-  }
+    );
+  };
 
-  /*searchByTopic = search_term => {
-    this.setState({ search_term: search_term }, async () => {
-      const response = await fetchPictures(this.state.search_term);
-    });
-  };*/
+  getIdForModal = event => {
+    event.preventDefault();
+    console.log(event.currentTarget);
+    const { id } = event.currentTarget;
+    this.setState({ idForModal: id });
+    console.log(id);
+  };
 
-  //componentDidMount() {
-
-  /*getImagesBySearchTopic = search_term => {
-    const { search_term } = this.state;
-  };*/
+  modal = id => {
+    const { pictures } = this.state;
+    //trzeba wyfiltrować tablicę żeby był tylko obiekt z danym id i najlepiej włożyć to do funkcji get IdForModal
+    const modal = {
+      largeimage: pictures.largeImageURL,
+      description: pictures.tags,
+    };
+    console.log({ modal });
+    return { modal };
+  };
 
   render() {
     const { pictures, search_term } = this.state;
+    const { idForModal } = this.state;
+
     return (
       <>
         <div className="container">
@@ -94,14 +109,23 @@ export class App extends Component {
         </div>
         <div>
           {pictures.length > 0 ? (
-            <Gallery pictures={pictures} search_term={search_term} />
+            <Gallery
+              pictures={pictures}
+              search_term={search_term}
+              openModal={this.getIdForModal}
+            />
           ) : null}
         </div>
         <div className="button-container is-hidden">
-          <button type="button" className="load-more">
+          <button
+            onClick={this.loadMorePictures}
+            type="button"
+            className="load-more"
+          >
             Load more
           </button>
         </div>
+        <Modal />
       </>
     );
   }

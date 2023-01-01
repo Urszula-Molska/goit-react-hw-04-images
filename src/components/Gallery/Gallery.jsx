@@ -1,9 +1,12 @@
-export const Gallery = ({ pictures }) => {
+export const Gallery = ({ pictures, openModal }) => {
   return (
     <ul className="gallery">
       {pictures.map(picture => {
         return (
           <li
+            onClick={openModal}
+            data-modal-open
+            id={picture.id}
             key={picture.id}
             className="photo-card"
             style={{
