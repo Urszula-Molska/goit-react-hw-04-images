@@ -13,15 +13,16 @@ export const Gallery = ({ pictures }) => {
               borderRadius: '5px',
             }}
           >
-            <a className="lightbox" href={picture.largeImageURL} />
-            <img
-              style={{ objectFit: 'cover' }}
-              src={picture.webformatURL}
-              alt={picture.tags}
-              loading="lazy"
-              width="263px"
-              height="176px"
-            />
+            <a className="lightbox" href={picture.largeImageURL}>
+              <img
+                style={{ objectFit: 'cover' }}
+                src={picture.webformatURL}
+                alt={picture.tags}
+                loading="lazy"
+                width="263px"
+                height="176px"
+              />
+            </a>
           </li>
         );
       })}

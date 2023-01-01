@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-let search_term;
 let per_page = 12;
 let page = 1;
 
