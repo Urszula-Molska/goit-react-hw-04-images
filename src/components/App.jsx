@@ -53,9 +53,6 @@ export class App extends Component {
   async componentDidUpdate(prevProps, prevState) {
     const { search_term } = this.state;
     try {
-      console.log(prevState);
-      console.log(this.state);
-
       if (this.state.pictures === prevState.pictures) {
         const response = await fetchPictures(this.state.search_term);
         this.setState({ pictures: response });
