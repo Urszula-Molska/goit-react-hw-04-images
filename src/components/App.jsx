@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { fetchPictures } from './Api/Api.jsx';
 import { Gallery } from './Gallery/Gallery.jsx';
 
@@ -16,7 +15,6 @@ export class App extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { search_term } = this.state;
     const form = event.target;
     this.setState(
       {
@@ -51,7 +49,6 @@ export class App extends Component {
   shouldComponentUpdate;
 
   async componentDidUpdate(prevProps, prevState) {
-    const { search_term } = this.state;
     try {
       if (this.state.pictures === prevState.pictures) {
         const response = await fetchPictures(this.state.search_term);
