@@ -52,41 +52,18 @@ export class App extends Component {
         return { page: prevState.page + 1 };
       },
       async () => {
-        const response = await fetchPictures(
-          this.state.search_term,
-          this.state.page
-        );
-
-        this.setState({ pictures: response.hits }, () => {
-          console.log(this.state);
-        });
-      }
-    );
-  };
-
-  /*loadMorePictures = () => {
-    this.setState(
-      prevState => {
-        return { page: prevState.page + 1 };
-      },
-      async () => {
-        const response = await fetchPictures(
-          this.state.search_term,
-          this.state.page
-        );
-        this.setState(
-          {
-            pictures: response.hits,
-          },
-          () => {
-            console.log(this.state);
+        await fetchPictures(this.state.search_term, this.state.page).then(
+          response => {
+            this.setState(prevState => ({
+              pictures: [...prevState.pictures, ...response.hits],
+            }));
           }
         );
       }
     );
-  };*/
+  };
 
-  getPropForModal = event => {
+  openModal = event => {
     const { pictures } = this.state;
     event.preventDefault();
     console.log(event.currentTarget);
@@ -98,6 +75,7 @@ export class App extends Component {
       console.log(this.state);
       this.setState(
         {
+          isModalOpen: true,
           imgForModal: picture.largeImageURL,
           altforModal: picture.tags,
         },
@@ -106,6 +84,10 @@ export class App extends Component {
         }
       );
     });
+  };
+
+  closeModal = event => {
+    this.setState({ isModalOpen: false });
   };
 
   render() {
@@ -122,17 +104,19 @@ export class App extends Component {
             <ImageGalleryItem
               pictures={pictures}
               search_term={search_term}
-              openModal={this.getPropForModal}
+              openModal={this.openModal}
             />
           </ImageGallery>
         ) : null}
 
         <Button loadMorePictures={this.loadMorePictures} />
-
-        <Modal
-          largeImage={this.state.imgForModal}
-          description={this.state.altforModal}
-        />
+        {this.state.isModalOpen === true && (
+          <Modal
+            closeModal={this.closeModal}
+            largeImage={this.state.imgForModal}
+            description={this.state.altforModal}
+          />
+        )}
       </>
     );
   }
