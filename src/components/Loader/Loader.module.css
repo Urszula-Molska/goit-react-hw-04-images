@@ -1,0 +1,9 @@
+.loaderCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 30px;
+}

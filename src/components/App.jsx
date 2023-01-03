@@ -5,6 +5,7 @@ import { Button } from './Button/Button.jsx';
 import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem.jsx';
 import { Modal } from './Modal/Modal.jsx';
+import { Loader } from './Loader/Loader.js';
 
 export class App extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ export class App extends Component {
       idForModal: '',
       imgForModal: '',
       altforModal: '',
+      visible: true,
     };
   }
 
@@ -34,16 +36,30 @@ export class App extends Component {
         page: 1,
       },
       async () => {
+        this.setState({
+          isLoading: true,
+          showBtn: false,
+        });
         const response = await fetchPictures(
           this.state.search_term,
           this.state.page,
           this.state.per_page
         );
-        console.log(response.totalHits);
-        this.setState({
-          pictures: response.hits,
-          totalPages: response.totalHits / this.state.per_page,
-        });
+        //console.log(response.totalHits);
+        this.setState(
+          {
+            pictures: response.hits,
+            isLoading: false,
+            totalPages: response.totalHits / this.state.per_page,
+          },
+          () => {
+            if (this.state.totalPages > this.state.page) {
+              this.setState({ showBtn: true });
+            } else {
+              this.setState({ showBtn: false });
+            }
+          }
+        );
       }
     );
   };
@@ -54,14 +70,28 @@ export class App extends Component {
         return { page: prevState.page + 1 };
       },
       async () => {
+        this.setState({
+          isLoading: true,
+          showBtn: false,
+        });
         await fetchPictures(
           this.state.search_term,
           this.state.page,
           this.state.per_page
         ).then(response => {
-          this.setState(prevState => ({
-            pictures: [...prevState.pictures, ...response.hits],
-          }));
+          this.setState(
+            prevState => ({
+              pictures: [...prevState.pictures, ...response.hits],
+              isLoading: false,
+            }),
+            () => {
+              if (this.state.totalPages > this.state.page) {
+                this.setState({ showBtn: true });
+              } else {
+                this.setState({ showBtn: false });
+              }
+            }
+          );
         });
       }
     );
@@ -70,31 +100,20 @@ export class App extends Component {
   openModal = event => {
     const { pictures } = this.state;
     event.preventDefault();
-    console.log(event.currentTarget);
+    //console.log(event.currentTarget);
     this.setState({ idForModal: event.currentTarget.id }, () => {
       const picture = pictures.find(
         picture => picture.id.toString() === this.state.idForModal
       );
-      console.log(picture, typeof picture);
-      console.log(this.state);
-      this.setState(
-        {
-          isModalOpen: true,
-          imgForModal: picture.largeImageURL,
-          altforModal: picture.tags,
-        },
-        () => {
-          console.log(this.state);
-        }
-      );
+      //console.log(picture, typeof picture);
+      //console.log(this.state);
+      this.setState({
+        isModalOpen: true,
+        imgForModal: picture.largeImageURL,
+        altforModal: picture.tags,
+      });
     });
   };
-
-  /*showBtn = () => {
-    if (this.state.totalPages > this.state.page) {
-      this.setState({ showBtn: true });
-    }
-  };*/
 
   closeModal = event => {
     this.setState({ isModalOpen: false });
@@ -104,10 +123,11 @@ export class App extends Component {
     const {
       pictures,
       search_term,
-      totalPages,
       imgForModal,
       altForModal,
-      page,
+      isLoading,
+      isModalOpen,
+      showBtn,
     } = this.state;
 
     return (
@@ -115,8 +135,7 @@ export class App extends Component {
         <div className="container">
           <Searchbar handleSubmit={this.handleSubmit} />
         </div>
-
-        {pictures.length > 0 ? (
+        {isLoading === false ? (
           <ImageGallery>
             <ImageGalleryItem
               pictures={pictures}
@@ -124,13 +143,14 @@ export class App extends Component {
               openModal={this.openModal}
             />
           </ImageGallery>
-        ) : null}
-
-        {this.state.totalPages > this.state.page && (
-          <Button loadMorePictures={this.loadMorePictures} />
+        ) : (
+          <div>
+            <Loader />
+          </div>
         )}
 
-        {this.state.isModalOpen === true && (
+        {showBtn && <Button loadMorePictures={this.loadMorePictures} />}
+        {isModalOpen && (
           <Modal
             closeModal={this.closeModal}
             largeImage={imgForModal}
