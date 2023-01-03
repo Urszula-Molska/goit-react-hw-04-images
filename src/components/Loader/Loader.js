@@ -5,6 +5,7 @@ import css from './Loader.module.css';
 export const Loader = () => (
   <div className={css.loaderCont}>
     <ColorRing
+      className={css.loader}
       visible={true}
       height="100"
       width="100"
