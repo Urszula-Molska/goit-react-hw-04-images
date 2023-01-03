@@ -15,7 +15,6 @@ export class App extends Component {
       isLoading: false,
       isModalOpen: false,
       showBtn: false,
-      error: null,
       search_term: '',
       page: 1,
       totalPages: 0,
@@ -23,7 +22,6 @@ export class App extends Component {
       idForModal: '',
       imgForModal: '',
       altforModal: '',
-      visible: true,
     };
   }
 
