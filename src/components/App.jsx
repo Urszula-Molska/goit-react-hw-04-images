@@ -6,6 +6,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem.jsx';
 import { Modal } from './Modal/Modal.jsx';
 import { Loader } from './Loader/Loader.js';
+import { Section } from './Section/Section.jsx';
 
 export class App extends Component {
   constructor(props) {
@@ -130,6 +131,14 @@ export class App extends Component {
 
     return (
       <>
+        <Section>
+          <a href="https://urszula-molska.github.io/goit-react-hw-03-image-finder/">
+            https://urszula-molska.github.io/goit-react-hw-03-image-finder
+          </a>
+          <a href="https://github.com/Urszula-Molska/goit-react-hw-03-image-finder">
+            https://github.com/Urszula-Molska/goit-react-hw-03-image-finder
+          </a>
+        </Section>
         <div className="container">
           <Searchbar handleSubmit={this.handleSubmit} />
         </div>
