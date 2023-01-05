@@ -5,7 +5,7 @@ import { Button } from './Button/Button.jsx';
 import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem.jsx';
 import { Modal } from './Modal/Modal.jsx';
-import { Loader } from './Loader/Loader.js';
+import { Loader } from './Loader/Loader.jsx';
 import { Section } from './Section/Section.jsx';
 
 export class App extends Component {
@@ -14,15 +14,15 @@ export class App extends Component {
     this.state = {
       pictures: [],
       isLoading: false,
-      isModalOpen: false,
-      showBtn: false,
       search_term: '',
       page: 1,
       totalPages: 0,
       per_page: 12,
-      idForModal: '',
-      imgForModal: '',
-      altforModal: '',
+      modal: {
+        show: false,
+        img: '',
+        imgAlt: '',
+      },
     };
   }
 
@@ -37,28 +37,17 @@ export class App extends Component {
       async () => {
         this.setState({
           isLoading: true,
-          showBtn: false,
         });
         const response = await fetchPictures(
           this.state.search_term,
           this.state.page,
           this.state.per_page
         );
-        //console.log(response.totalHits);
-        this.setState(
-          {
-            pictures: response.hits,
-            isLoading: false,
-            totalPages: response.totalHits / this.state.per_page,
-          },
-          () => {
-            if (this.state.totalPages > this.state.page) {
-              this.setState({ showBtn: true });
-            } else {
-              this.setState({ showBtn: false });
-            }
-          }
-        );
+        this.setState({
+          pictures: response.hits,
+          isLoading: false,
+          totalPages: response.totalHits / this.state.per_page,
+        });
       }
     );
   };
@@ -69,28 +58,14 @@ export class App extends Component {
         return { page: prevState.page + 1 };
       },
       async () => {
-        this.setState({
-          isLoading: true,
-          showBtn: false,
-        });
         await fetchPictures(
           this.state.search_term,
           this.state.page,
           this.state.per_page
         ).then(response => {
-          this.setState(
-            prevState => ({
-              pictures: [...prevState.pictures, ...response.hits],
-              isLoading: false,
-            }),
-            () => {
-              if (this.state.totalPages > this.state.page) {
-                this.setState({ showBtn: true });
-              } else {
-                this.setState({ showBtn: false });
-              }
-            }
-          );
+          this.setState(prevState => ({
+            pictures: [...prevState.pictures, ...response.hits],
+          }));
         });
       }
     );
@@ -99,35 +74,22 @@ export class App extends Component {
   openModal = event => {
     const { pictures } = this.state;
     event.preventDefault();
-    //console.log(event.currentTarget);
-    this.setState({ idForModal: event.currentTarget.id }, () => {
-      const picture = pictures.find(
-        picture => picture.id.toString() === this.state.idForModal
-      );
-      //console.log(picture, typeof picture);
-      //console.log(this.state);
-      this.setState({
-        isModalOpen: true,
-        imgForModal: picture.largeImageURL,
-        altforModal: picture.tags,
-      });
+    const idForModal = event.currentTarget.id;
+    const picture = pictures.find(
+      picture => picture.id.toString() === idForModal
+    );
+    this.setState({
+      modal: { show: true, img: picture.largeImageURL, imgAlt: picture.tags },
     });
   };
 
   closeModal = event => {
-    this.setState({ isModalOpen: false });
+    this.setState({ modal: { show: false } });
   };
 
   render() {
-    const {
-      pictures,
-      search_term,
-      imgForModal,
-      altForModal,
-      isLoading,
-      isModalOpen,
-      showBtn,
-    } = this.state;
+    const { pictures, search_term, isLoading, modal } = this.state;
+    const showButton = this.state.totalPages > this.state.page;
 
     return (
       <>
@@ -155,13 +117,12 @@ export class App extends Component {
             <Loader />
           </div>
         )}
-
-        {showBtn && <Button loadMorePictures={this.loadMorePictures} />}
-        {isModalOpen && (
+        {showButton && <Button loadMorePictures={this.loadMorePictures} />}
+        {modal.show && (
           <Modal
             closeModal={this.closeModal}
-            largeImage={imgForModal}
-            description={altForModal}
+            largeImage={modal.img}
+            alt={modal.imgAlt}
           />
         )}
       </>

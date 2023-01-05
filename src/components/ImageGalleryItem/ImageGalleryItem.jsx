@@ -33,6 +33,10 @@ export const ImageGalleryItem = ({ pictures, openModal }) => {
   });
 };
 ImageGalleryItem.propTypes = {
-  pictures: PropTypes.arrayOf(PropTypes.object),
   openModal: PropTypes.func,
+  pictures: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    )
+  ),
 };
