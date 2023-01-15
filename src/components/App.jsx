@@ -37,8 +37,7 @@ export const App = () => {
 
   /*useEffect(() => {
     if (searchTerm.length === '') {
-      return;
-    }
+      return;}
 
     fetchMorePictures(searchTerm, page, perPage);
   }, [searchTerm, page]);*/
