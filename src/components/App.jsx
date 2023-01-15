@@ -73,11 +73,11 @@ export const App = () => {
   return (
     <>
       <Section>
-        <a href="https://urszula-molska.github.io/goit-react-hw-04-image-finder/">
-          https://urszula-molska.github.io/goit-react-hw-04-image-finder
+        <a href="https://urszula-molska.github.io/goit-react-hw-04-images/">
+          https://urszula-molska.github.io/goit-react-hw-04-images
         </a>
-        <a href="https://github.com/Urszula-Molska/goit-react-hw-04-image-finder">
-          https://github.com/Urszula-Molska/goit-react-hw-04-image-finder
+        <a href="https://github.com/Urszula-Molska/goit-react-hw-04-images">
+          https://github.com/Urszula-Molska/goit-react-hw-04-images
         </a>
       </Section>
       <div className="container">
