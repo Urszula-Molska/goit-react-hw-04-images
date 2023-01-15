@@ -10,50 +10,51 @@ import { Section } from './Section/Section.jsx';
 
 export const App = () => {
   const [pictures, setPictures] = useState([]);
-  const [search_term, setSearch_term] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
-  const [per_page, setPer_page] = useState(12);
+  const [perPage, setPerPage] = useState(12);
   const [modal, setModal] = useState({ show: false, img: '', imgAlt: '' });
 
   const handleSubmit = event => {
     event.preventDefault();
-    setPage(1);
     const form = event.target;
-    const search_value = form.elements.searchQuery.value;
-    setSearch_term(search_value);
+    const searchValue = form.elements.searchQuery.value;
+    setSearchTerm(searchValue);
 
-    const fetchImages = async (search_term, page, per_page) => {
+    const fetchImages = async (searchTerm, page, perPage) => {
       setLoading(true);
-      await fetchPictures(search_term, page, per_page).then(response => {
+      await fetchPictures(searchTerm, page, perPage).then(response => {
         setPictures(response.hits);
-        setTotalPages(response.totalHits / per_page);
+        setTotalPages(response.totalHits / perPage);
       });
       setLoading(false);
     };
 
-    fetchImages(search_term, page, per_page);
+    fetchImages(searchValue, page, perPage);
   };
 
-  /* useEffect(() => {
-    if (search_term.length === '') {
-      return;
-    }
-    fetchImages(search_term, page, per_page);
-  }, [search_term]);*/
+  /*useEffect(() => {
+      if (search_term.length === '') {
+        return;
+      }
+      fetchImages(search_term, page, per_page);
+    }, []);
+  };*/
 
   //LOAD MORE PICTURES
   const loadMorePictures = () => {
-    setPage(page + 1);
+    const nextPage = page + 1;
+    setPage(nextPage);
 
-    const fetchMorePictures = async (search_term, page, per_page) => {
-      await fetchPictures(search_term, page, per_page).then(response => {
+    const fetchMorePictures = async (searchTerm, nextPage, perPage) => {
+      await fetchPictures(searchTerm, nextPage, perPage).then(response => {
         setPictures([...pictures, ...response.hits]);
       });
     };
-    fetchMorePictures(search_term, page, per_page);
-    console.log(pictures, page, search_term);
+    fetchMorePictures(searchTerm, nextPage, perPage);
+    console.log(pictures, page, searchTerm);
   };
 
   const openModal = event => {
@@ -92,7 +93,7 @@ export const App = () => {
         <ImageGallery>
           <ImageGalleryItem
             pictures={pictures}
-            search_term={search_term}
+            searchTerm={searchTerm}
             openModal={openModal}
           />
         </ImageGallery>
