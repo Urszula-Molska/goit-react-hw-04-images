@@ -23,7 +23,6 @@ export const App = () => {
     const form = event.target;
     const search_value = form.elements.searchQuery.value;
     setSearch_term(search_value);
-    fetchImages(search_term, page, per_page);
   };
 
   const fetchImages = async (search_term, page, per_page) => {
@@ -35,7 +34,10 @@ export const App = () => {
     setLoading(false);
   };
 
-  /*useEffect(() => {
+  /* useEffect(() => {
+    if (search_term.length === '') {
+      return;
+    }
     fetchImages(search_term, page, per_page);
   }, [search_term]);*/
 
