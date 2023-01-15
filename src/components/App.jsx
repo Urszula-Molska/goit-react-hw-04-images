@@ -35,19 +35,6 @@ export const App = () => {
     fetchImages(searchValue, page, perPage);
   };
 
-  /*useEffect(() => {
-    if (searchTerm.length === '') {
-      return;}
-
-    fetchMorePictures(searchTerm, page, perPage);
-  }, [searchTerm, page]);*/
-
-  /*const fetchMorePictures = async (searchTerm, page, perPage) => {
-    await fetchPictures(searchTerm, page, perPage).then(response => {
-      setPictures([...pictures, ...response.hits]);
-    });
-  };*/
-
   //LOAD MORE PICTURES
   const loadMorePictures = () => {
     const nextPage = page + 1;
