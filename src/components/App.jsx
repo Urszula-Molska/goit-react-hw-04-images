@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { fetchPictures } from './Api/Api.js';
 import { Searchbar } from './Searchbar/Searchbar.jsx';
 import { Button } from './Button/Button.jsx';
