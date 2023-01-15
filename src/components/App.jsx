@@ -23,15 +23,17 @@ export const App = () => {
     const form = event.target;
     const search_value = form.elements.searchQuery.value;
     setSearch_term(search_value);
-  };
 
-  const fetchImages = async (search_term, page, per_page) => {
-    setLoading(true);
-    await fetchPictures(search_term, page, per_page).then(response => {
-      setPictures(response.hits);
-      setTotalPages(response.totalHits / per_page);
-    });
-    setLoading(false);
+    const fetchImages = async (search_term, page, per_page) => {
+      setLoading(true);
+      await fetchPictures(search_term, page, per_page).then(response => {
+        setPictures(response.hits);
+        setTotalPages(response.totalHits / per_page);
+      });
+      setLoading(false);
+    };
+
+    fetchImages(search_term, page, per_page);
   };
 
   /* useEffect(() => {
