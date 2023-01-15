@@ -1,9 +1,9 @@
-import { useUser } from '../../context/index.js';
+import { useAppContext } from '../../context/index.js';
 import PropTypes from 'prop-types';
 import css from './ImageGalleryItem.module.css';
 
-export const ImageGalleryItem = openModal => {
-  const { pictures } = useUser();
+export const ImageGalleryItem = () => {
+  const { pictures, openModal } = useAppContext();
   return pictures.map(picture => {
     return (
       <li

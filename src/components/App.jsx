@@ -7,15 +7,7 @@ import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem.jsx';
 import { Modal } from './Modal/Modal.jsx';
 import { Loader } from './Loader/Loader.jsx';
 import { Section } from './Section/Section.jsx';
-//import { useUser } from '../context/index.js';
 import { AppContext } from '../context/index.js';
-
-//export const useUser = () => useContext(AppContext);
-
-//context
-//export const AppContext = createContext();
-//export const useUser = () => useContext(AppContext);
-//
 
 export const App = () => {
   const [pictures, setPictures] = useState([]);
@@ -35,13 +27,11 @@ export const App = () => {
     const fetchImages = async (searchTerm, page, perPage) => {
       setPerPage(12);
       setLoading(true);
-      await fetchPictures(searchTerm, page, perPage).then(response => {
-        setPictures(response.hits);
-        setTotalPages(response.totalHits / perPage);
-      });
+      const response = await fetchPictures(searchTerm, page, perPage);
+      setPictures(response.hits);
+      setTotalPages(response.totalHits / perPage);
       setLoading(false);
     };
-
     fetchImages(searchValue, page, perPage);
   };
 
@@ -51,9 +41,8 @@ export const App = () => {
     setPage(nextPage);
 
     const fetchMorePictures = async (searchTerm, nextPage, perPage) => {
-      await fetchPictures(searchTerm, nextPage, perPage).then(response => {
-        setPictures([...pictures, ...response.hits]);
-      });
+      const response = await fetchPictures(searchTerm, nextPage, perPage);
+      setPictures([...pictures, ...response.hits]);
     };
 
     fetchMorePictures(searchTerm, nextPage, perPage);
@@ -90,6 +79,8 @@ export const App = () => {
           page,
           perPage,
           modal,
+          openModal,
+          closeModal,
         }}
       >
         <Section>
@@ -105,11 +96,7 @@ export const App = () => {
         </div>
         {isLoading === false ? (
           <ImageGallery>
-            <ImageGalleryItem
-              //pictures={pictures}
-              //searchTerm={searchTerm}
-              openModal={openModal}
-            />
+            <ImageGalleryItem />
           </ImageGallery>
         ) : (
           <div>

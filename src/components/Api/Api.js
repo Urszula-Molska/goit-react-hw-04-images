@@ -1,9 +1,6 @@
 import axios from 'axios';
-//import { useUser } from '../context';
 
 export const fetchPictures = async (searchTerm, page, perPage) => {
-  //const { perPage, page, searchTerm } = useUser();
-
   let params = new URLSearchParams({
     key: '30974723-e837a19c04863567111943fb7',
     searchTerm: searchTerm,
