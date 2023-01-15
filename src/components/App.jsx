@@ -24,6 +24,7 @@ export const App = () => {
     setSearchTerm(searchValue);
 
     const fetchImages = async (searchTerm, page, perPage) => {
+      setPerPage(12);
       setLoading(true);
       await fetchPictures(searchTerm, page, perPage).then(response => {
         setPictures(response.hits);
