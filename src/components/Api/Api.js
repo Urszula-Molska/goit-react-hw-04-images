@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-export const fetchPictures = async (search_term, page, per_page) => {
+export const fetchPictures = async (searchTerm, page, perPage) => {
   let params = new URLSearchParams({
     key: '30974723-e837a19c04863567111943fb7',
     //search_term: this.state.search_term,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
-    per_page: per_page,
+    perPage: perPage,
     page: page,
   });
 
-  const URL = `https://pixabay.com/api/?${params}&q=${search_term}`;
+  const URL = `https://pixabay.com/api/?${params}&q=${searchTerm}`;
   try {
     const response = await axios.get(`${URL}`);
     return response.data;
