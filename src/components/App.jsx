@@ -36,11 +36,17 @@ export const App = () => {
   };
 
   /*useEffect(() => {
-      if (search_term.length === '') {
-        return;
-      }
-      fetchImages(search_term, page, per_page);
-    }, []);
+    if (searchTerm.length === '') {
+      return;
+    }
+
+    fetchMorePictures(searchTerm, page, perPage);
+  }, [searchTerm, page]);*/
+
+  /*const fetchMorePictures = async (searchTerm, page, perPage) => {
+    await fetchPictures(searchTerm, page, perPage).then(response => {
+      setPictures([...pictures, ...response.hits]);
+    });
   };*/
 
   //LOAD MORE PICTURES
@@ -53,6 +59,7 @@ export const App = () => {
         setPictures([...pictures, ...response.hits]);
       });
     };
+
     fetchMorePictures(searchTerm, nextPage, perPage);
     console.log(pictures, page, searchTerm);
   };
