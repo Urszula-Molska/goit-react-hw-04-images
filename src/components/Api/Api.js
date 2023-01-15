@@ -1,9 +1,12 @@
 import axios from 'axios';
+//import { useUser } from '../context';
 
 export const fetchPictures = async (searchTerm, page, perPage) => {
+  //const { perPage, page, searchTerm } = useUser();
+
   let params = new URLSearchParams({
     key: '30974723-e837a19c04863567111943fb7',
-    //search_term: this.state.search_term,
+    searchTerm: searchTerm,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,

@@ -7,6 +7,15 @@ import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem.jsx';
 import { Modal } from './Modal/Modal.jsx';
 import { Loader } from './Loader/Loader.jsx';
 import { Section } from './Section/Section.jsx';
+//import { useUser } from '../context/index.js';
+import { AppContext } from '../context/index.js';
+
+//export const useUser = () => useContext(AppContext);
+
+//context
+//export const AppContext = createContext();
+//export const useUser = () => useContext(AppContext);
+//
 
 export const App = () => {
   const [pictures, setPictures] = useState([]);
@@ -72,38 +81,50 @@ export const App = () => {
 
   return (
     <>
-      <Section>
-        <a href="https://urszula-molska.github.io/goit-react-hw-04-images/">
-          https://urszula-molska.github.io/goit-react-hw-04-images
-        </a>
-        <a href="https://github.com/Urszula-Molska/goit-react-hw-04-images">
-          https://github.com/Urszula-Molska/goit-react-hw-04-images
-        </a>
-      </Section>
-      <div className="container">
-        <Searchbar handleSubmit={handleSubmit} />
-      </div>
-      {isLoading === false ? (
-        <ImageGallery>
-          <ImageGalleryItem
-            pictures={pictures}
-            searchTerm={searchTerm}
-            openModal={openModal}
-          />
-        </ImageGallery>
-      ) : (
-        <div>
-          <Loader />
+      <AppContext.Provider
+        value={{
+          searchTerm,
+          pictures,
+          isLoading,
+          totalPages,
+          page,
+          perPage,
+          modal,
+        }}
+      >
+        <Section>
+          <a href="https://urszula-molska.github.io/goit-react-hw-04-images/">
+            https://urszula-molska.github.io/goit-react-hw-04-images
+          </a>
+          <a href="https://github.com/Urszula-Molska/goit-react-hw-04-images">
+            https://github.com/Urszula-Molska/goit-react-hw-04-images
+          </a>
+        </Section>
+        <div className="container">
+          <Searchbar handleSubmit={handleSubmit} />
         </div>
-      )}
-      {showButton && <Button loadMorePictures={loadMorePictures} />}
-      {modal.show && (
-        <Modal
-          closeModal={closeModal}
-          largeImage={modal.img}
-          alt={modal.imgAlt}
-        />
-      )}
+        {isLoading === false ? (
+          <ImageGallery>
+            <ImageGalleryItem
+              //pictures={pictures}
+              //searchTerm={searchTerm}
+              openModal={openModal}
+            />
+          </ImageGallery>
+        ) : (
+          <div>
+            <Loader />
+          </div>
+        )}
+        {showButton && <Button loadMorePictures={loadMorePictures} />}
+        {modal.show && (
+          <Modal
+            closeModal={closeModal}
+            largeImage={modal.img}
+            alt={modal.imgAlt}
+          />
+        )}
+      </AppContext.Provider>
     </>
   );
 };
