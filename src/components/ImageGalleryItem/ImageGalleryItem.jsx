@@ -4,7 +4,6 @@ import css from './ImageGalleryItem.module.css';
 
 export const ImageGalleryItem = ({ picture, openModal }) => {
   //const { pictures, openModal } = useAppContext();
-  //return pictures.map(picture => {
   return (
     <li
       onClick={() => openModal(picture.largeImageURL)}
