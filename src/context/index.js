@@ -1,7 +1,11 @@
 import { createContext, useContext, useState } from 'react';
 import { fetchPictures } from '../components/Api/Api.js';
+
+//Gallery context//
 export const GalleryContext = createContext();
 export const useGalleryContext = () => useContext(GalleryContext);
+//End of Gallery context//
+
 export const AppContext = createContext();
 export const useAppContext = () => useContext(AppContext);
 
@@ -42,15 +46,12 @@ export const AppProvider = ({ children }) => {
     };
 
     fetchMorePictures(searchTerm, nextPage, perPage);
-    console.log(pictures, page, searchTerm);
   };
 
   const openModal = largeImageURL => {
-    console.log(largeImageURL);
     const picture = pictures.find(
       picture => picture.largeImageURL === largeImageURL
     );
-    console.log(largeImageURL);
 
     setModal({
       show: true,
@@ -58,19 +59,6 @@ export const AppProvider = ({ children }) => {
       imgAlt: picture.tags,
     });
   };
-
-  /* const openModal = event => {
-      event.preventDefault();
-      const idForModal = event.currentTarget.id;
-      const picture = pictures.find(
-        picture => picture.id.toString() === idForModal
-      );
-      setModal({
-        show: true,
-        img: picture.largeImageURL,
-        imgAlt: picture.tags,
-      });
-    };*/
 
   const closeModal = () => {
     setModal({ show: false });

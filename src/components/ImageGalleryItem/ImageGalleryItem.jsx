@@ -1,15 +1,12 @@
-//import { useAppContext } from '../../context/index.js';
 import PropTypes from 'prop-types';
 import css from './ImageGalleryItem.module.css';
 
 export const ImageGalleryItem = ({ picture, openModal }) => {
-  //const { pictures, openModal } = useAppContext();
   return (
     <li
       onClick={() => openModal(picture.largeImageURL)}
       data-modal-open
       id={picture.id}
-      //key={picture.id}
       className={css.imageGalleryItem}
       style={{
         border: 'gainsboro',
