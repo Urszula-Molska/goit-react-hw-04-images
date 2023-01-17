@@ -1,14 +1,17 @@
 import { useAppContext } from '../../context/index.js';
 import { GalleryContext } from '../../context/index.js';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem.jsx';
 import PropTypes from 'prop-types';
 import css from './ImageGallery.module.css';
-export const ImageGallery = ({ children }) => {
+export const ImageGallery = () => {
   const { pictures, openModal } = useAppContext();
 
   return (
     <ul className={css.imageGallery}>
-      <GalleryContext.Provider value={{ openModal, pictures }}>
-        {children}
+      <GalleryContext.Provider value={{ pictures, openModal }}>
+        {pictures.map(picture => (
+          <ImageGalleryItem picture={picture} openModal={openModal} />
+        ))}
       </GalleryContext.Provider>
     </ul>
   );

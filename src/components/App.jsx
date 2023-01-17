@@ -50,10 +50,11 @@ export const App = () => {
   };
 
   const openModal = largeImageURL => {
-    console.log(pictures, page, searchTerm);
+    console.log(largeImageURL);
     const picture = pictures.find(
       picture => picture.largeImageURL === largeImageURL
     );
+    console.log(largeImageURL);
 
     setModal({
       show: true,
