@@ -6,6 +6,7 @@ export const GalleryContext = createContext();
 export const useGalleryContext = () => useContext(GalleryContext);
 //End of Gallery context//
 
+//App Context//
 export const AppContext = createContext();
 export const useAppContext = () => useContext(AppContext);
 

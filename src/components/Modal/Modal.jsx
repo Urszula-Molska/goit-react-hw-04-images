@@ -10,6 +10,6 @@ export const Modal = ({ largeImage, alt, closeModal }) => (
 );
 Modal.propTypes = {
   largeImage: PropTypes.string,
-  description: PropTypes.string,
+  alt: PropTypes.string,
   closeModal: PropTypes.func,
 };
