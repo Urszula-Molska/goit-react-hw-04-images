@@ -58,7 +58,7 @@ export const App = () => {
     setModal({
       show: true,
       img: picture.largeImageURL,
-      imgAltture: picture.tags,
+      imgAlt: picture.tags,
     });
   };
 
