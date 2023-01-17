@@ -7,7 +7,7 @@ export const ImageGalleryItem = () => {
   return pictures.map(picture => {
     return (
       <li
-        onClick={openModal}
+        onClick={() => openModal(picture.largeImageURL)}
         data-modal-open
         id={picture.id}
         key={picture.id}

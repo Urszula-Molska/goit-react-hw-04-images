@@ -49,7 +49,20 @@ export const App = () => {
     console.log(pictures, page, searchTerm);
   };
 
-  const openModal = event => {
+  const openModal = largeImageURL => {
+    console.log(pictures, page, searchTerm);
+    const picture = pictures.find(
+      picture => picture.largeImageURL === largeImageURL
+    );
+
+    setModal({
+      show: true,
+      img: picture.largeImageURL,
+      imgAltture: picture.tags,
+    });
+  };
+
+  /* const openModal = event => {
     event.preventDefault();
     const idForModal = event.currentTarget.id;
     const picture = pictures.find(
@@ -60,9 +73,9 @@ export const App = () => {
       img: picture.largeImageURL,
       imgAlt: picture.tags,
     });
-  };
+  };*/
 
-  const closeModal = event => {
+  const closeModal = () => {
     setModal({ show: false });
   };
 
