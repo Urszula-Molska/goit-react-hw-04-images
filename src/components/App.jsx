@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { fetchPictures } from './Api/Api.js';
+import { useAppContext } from '../context/index.js';
+import { AppProvider } from '../context/index.js';
+//import { fetchPictures } from './Api/Api.js';
 import { Searchbar } from './Searchbar/Searchbar.jsx';
 import { Button } from './Button/Button.jsx';
 import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
@@ -7,18 +8,27 @@ import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem.jsx';
 import { Modal } from './Modal/Modal.jsx';
 import { Loader } from './Loader/Loader.jsx';
 import { Section } from './Section/Section.jsx';
-import { AppContext } from '../context/index.js';
+//import { AppContext } from '../context/index.js';
 
 export const App = () => {
-  const [pictures, setPictures] = useState([]);
+  const {
+    isLoading,
+    modal,
+    closeModal,
+    handleSubmit,
+    loadMorePictures,
+    showButton,
+  } = useAppContext();
+
+  /* const [pictures, setPictures] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(12);
-  const [modal, setModal] = useState({ show: false, img: '', imgAlt: '' });
+  const [modal, setModal] = useState({ show: false, img: '', imgAlt: '' });*/
 
-  const handleSubmit = event => {
+  /*const handleSubmit = event => {
     event.preventDefault();
     const form = event.target;
     const searchValue = form.elements.searchQuery.value;
@@ -76,27 +86,15 @@ export const App = () => {
     });
   };*/
 
-  const closeModal = () => {
+  /*const closeModal = () => {
     setModal({ show: false });
-  };
+  };*/
 
-  const showButton = totalPages > page;
+  //const showButton = totalPages > page;
 
   return (
-    <>
-      <AppContext.Provider
-        value={{
-          searchTerm,
-          pictures,
-          isLoading,
-          totalPages,
-          page,
-          perPage,
-          modal,
-          openModal,
-          closeModal,
-        }}
-      >
+    <AppProvider>
+      <>
         <Section>
           <a href="https://urszula-molska.github.io/goit-react-hw-04-images/">
             https://urszula-molska.github.io/goit-react-hw-04-images
@@ -125,7 +123,21 @@ export const App = () => {
             alt={modal.imgAlt}
           />
         )}
-      </AppContext.Provider>
-    </>
+      </>
+    </AppProvider>
   );
 };
+
+/*<AppContext.Provider
+        value={{
+          searchTerm,
+          pictures,
+          isLoading,
+          totalPages,
+          page,
+          perPage,
+          modal,
+          openModal,
+          closeModal,
+        }}
+      >*/

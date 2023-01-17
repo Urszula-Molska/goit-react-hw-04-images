@@ -10,7 +10,11 @@ export const ImageGallery = () => {
     <ul className={css.imageGallery}>
       <GalleryContext.Provider value={{ pictures, openModal }}>
         {pictures.map(picture => (
-          <ImageGalleryItem picture={picture} openModal={openModal} />
+          <ImageGalleryItem
+            key={picture.id}
+            picture={picture}
+            openModal={openModal}
+          />
         ))}
       </GalleryContext.Provider>
     </ul>

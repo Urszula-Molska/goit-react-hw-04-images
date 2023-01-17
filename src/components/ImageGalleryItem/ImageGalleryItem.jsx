@@ -9,7 +9,7 @@ export const ImageGalleryItem = ({ picture, openModal }) => {
       onClick={() => openModal(picture.largeImageURL)}
       data-modal-open
       id={picture.id}
-      key={picture.id}
+      //key={picture.id}
       className={css.imageGalleryItem}
       style={{
         border: 'gainsboro',
