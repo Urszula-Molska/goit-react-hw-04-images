@@ -1,22 +1,16 @@
 import { createContext, useContext, useState } from 'react';
 import { fetchPictures } from '../components/Api/Api.js';
 
-//Gallery context//
-export const GalleryContext = createContext();
-export const useGalleryContext = () => useContext(GalleryContext);
-//End of Gallery context//
-
 //App Context//
-export const AppContext = createContext();
-export const useAppContext = () => useContext(AppContext);
+export const ImageFinderContext = createContext();
+export const useImageFinderContext = () => useContext(ImageFinderContext);
 
-export const AppProvider = ({ children }) => {
+export const ImageFinderContextProvider = ({ children }) => {
   const [pictures, setPictures] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(12);
   const [modal, setModal] = useState({ show: false, img: '', imgAlt: '' });
 
   const handleSubmit = event => {
@@ -25,15 +19,14 @@ export const AppProvider = ({ children }) => {
     const searchValue = form.elements.searchQuery.value;
     setSearchTerm(searchValue);
 
-    const fetchImages = async (searchTerm, page, perPage) => {
-      setPerPage(12);
+    const fetchImages = async (searchTerm, page) => {
       setLoading(true);
-      const response = await fetchPictures(searchTerm, page, perPage);
+      const response = await fetchPictures(searchTerm, page);
       setPictures(response.hits);
-      setTotalPages(response.totalHits / perPage);
+      setTotalPages(response.totalHits / 12);
       setLoading(false);
     };
-    fetchImages(searchValue, page, perPage);
+    fetchImages(searchValue, page);
   };
 
   //LOAD MORE PICTURES
@@ -41,12 +34,12 @@ export const AppProvider = ({ children }) => {
     const nextPage = page + 1;
     setPage(nextPage);
 
-    const fetchMorePictures = async (searchTerm, nextPage, perPage) => {
-      const response = await fetchPictures(searchTerm, nextPage, perPage);
+    const fetchMorePictures = async (searchTerm, nextPage) => {
+      const response = await fetchPictures(searchTerm, nextPage);
       setPictures([...pictures, ...response.hits]);
     };
 
-    fetchMorePictures(searchTerm, nextPage, perPage);
+    fetchMorePictures(searchTerm, nextPage);
   };
 
   const openModal = largeImageURL => {
@@ -68,14 +61,13 @@ export const AppProvider = ({ children }) => {
   const showButton = totalPages > page;
 
   return (
-    <AppContext.Provider
+    <ImageFinderContext.Provider
       value={{
         searchTerm,
         pictures,
         isLoading,
         totalPages,
         page,
-        perPage,
         modal,
         openModal,
         closeModal,
@@ -85,6 +77,6 @@ export const AppProvider = ({ children }) => {
       }}
     >
       {children}
-    </AppContext.Provider>
+    </ImageFinderContext.Provider>
   );
 };

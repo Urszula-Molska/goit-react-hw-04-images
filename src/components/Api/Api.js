@@ -7,7 +7,7 @@ export const fetchPictures = async (searchTerm, page, perPage) => {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
-    perPage: perPage,
+    perPage: 12,
     page: page,
   });
 

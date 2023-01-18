@@ -1,10 +1,9 @@
-import { useAppContext } from '../context/index.js';
+import { useImageFinderContext } from '../ImageFinderContext/ImageFinderContext.js';
 
 //import { fetchPictures } from './Api/Api.js';
 import { Searchbar } from './Searchbar/Searchbar.jsx';
 import { Button } from './Button/Button.jsx';
 import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
-import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem.jsx';
 import { Modal } from './Modal/Modal.jsx';
 import { Loader } from './Loader/Loader.jsx';
 import { Section } from './Section/Section.jsx';
@@ -18,7 +17,7 @@ export const App = () => {
     handleSubmit,
     loadMorePictures,
     showButton,
-  } = useAppContext();
+  } = useImageFinderContext();
 
   return (
     <>
@@ -34,9 +33,7 @@ export const App = () => {
         <Searchbar handleSubmit={handleSubmit} />
       </div>
       {isLoading === false ? (
-        <ImageGallery>
-          <ImageGalleryItem />
-        </ImageGallery>
+        <ImageGallery />
       ) : (
         <div>
           <Loader />
