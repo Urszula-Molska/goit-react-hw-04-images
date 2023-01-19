@@ -1,4 +1,6 @@
 import { createContext, useContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchPictures } from '../components/Api/Api.js';
 
 //App Context//
@@ -22,9 +24,16 @@ export const ImageFinderContextProvider = ({ children }) => {
     const fetchImages = async (searchTerm, page) => {
       setLoading(true);
       const response = await fetchPictures(searchTerm, page);
-      setPictures(response.hits);
-      setTotalPages(response.totalHits / 12);
-      setLoading(false);
+      if (response.hits.length === 0) {
+        setLoading(false);
+        Notify.info(`There is no records that matches:  ${searchValue}  !`);
+        setPictures(response.hits);
+        setTotalPages(response.totalHits / 12);
+      } else {
+        setPictures(response.hits);
+        setTotalPages(response.totalHits / 12);
+        setLoading(false);
+      }
     };
     fetchImages(searchValue, page);
   };
@@ -79,4 +88,22 @@ export const ImageFinderContextProvider = ({ children }) => {
       {children}
     </ImageFinderContext.Provider>
   );
+};
+
+ImageFinderContext.Provider.propTypes = {
+  searchTerm: PropTypes.string,
+  isLoading: PropTypes.bool,
+  totalPages: PropTypes.number,
+  page: PropTypes.number,
+  modal: PropTypes.object,
+  openModal: PropTypes.func,
+  closeModal: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  loadMorePictures: PropTypes.func,
+  pictures: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    )
+  ),
+  showButton: PropTypes.bool,
 };

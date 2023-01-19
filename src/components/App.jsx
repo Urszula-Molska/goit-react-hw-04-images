@@ -1,13 +1,10 @@
-import { useImageFinderContext } from '../ImageFinderContext/ImageFinderContext.js';
-
-//import { fetchPictures } from './Api/Api.js';
+import { useImageFinderContext } from '../Context/ImageFinderContext.jsx';
 import { Searchbar } from './Searchbar/Searchbar.jsx';
 import { Button } from './Button/Button.jsx';
 import { ImageGallery } from './ImageGallery/ImageGallery.jsx';
 import { Modal } from './Modal/Modal.jsx';
 import { Loader } from './Loader/Loader.jsx';
 import { Section } from './Section/Section.jsx';
-//import { AppContext } from '../context/index.js';
 
 export const App = () => {
   const {

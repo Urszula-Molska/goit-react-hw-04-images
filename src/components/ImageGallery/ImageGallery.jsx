@@ -1,5 +1,4 @@
-import { useImageFinderContext } from '../../ImageFinderContext/ImageFinderContext.js';
-import { ImageFinderContext } from '../../ImageFinderContext/ImageFinderContext.js';
+import { useImageFinderContext } from '../../Context/ImageFinderContext.jsx';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem.jsx';
 import PropTypes from 'prop-types';
 import css from './ImageGallery.module.css';
@@ -8,15 +7,13 @@ export const ImageGallery = () => {
 
   return (
     <ul className={css.imageGallery}>
-      <ImageFinderContext.Provider value={{ pictures, openModal }}>
-        {pictures.map(picture => (
-          <ImageGalleryItem
-            key={picture.id}
-            picture={picture}
-            openModal={openModal}
-          />
-        ))}
-      </ImageFinderContext.Provider>
+      {pictures.map(picture => (
+        <ImageGalleryItem
+          key={picture.id}
+          picture={picture}
+          openModal={openModal}
+        />
+      ))}
     </ul>
   );
 };

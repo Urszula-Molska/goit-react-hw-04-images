@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ReactDOM from 'react-dom/client';
-import { ImageFinderContextProvider } from './ImageFinderContext/ImageFinderContext.js';
+import { ImageFinderContextProvider } from './Context/ImageFinderContext.jsx';
 import { App } from 'components/App';
 import './index.css';
 
