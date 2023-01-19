@@ -1,4 +1,4 @@
-import { useImageFinderContext } from '../Context/ImageFinderContext.jsx';
+import { useImageFinderContext } from '../context/ImageFinderContext.jsx';
 import { Searchbar } from './Searchbar/Searchbar.jsx';
 import { Button } from './Button/Button.jsx';
 import { ImageGallery } from './ImageGallery/ImageGallery.jsx';

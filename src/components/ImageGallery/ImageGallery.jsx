@@ -1,4 +1,4 @@
-import { useImageFinderContext } from '../../Context/ImageFinderContext.jsx';
+import { useImageFinderContext } from '../../context/ImageFinderContext.jsx';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem.jsx';
 import PropTypes from 'prop-types';
 import css from './ImageGallery.module.css';
