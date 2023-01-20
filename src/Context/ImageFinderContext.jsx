@@ -33,7 +33,6 @@ export const ImageFinderContextProvider = ({ children }) => {
         setPictures(response.hits);
         setTotalPages(response.totalHits / 12);
         setLoading(false);
-        console.log(response.hits.length);
       }
     };
     fetchImages(searchValue, page);
